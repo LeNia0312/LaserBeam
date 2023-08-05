@@ -5,46 +5,53 @@ namespace FUTADA
 {
     public class GameManager : MonoBehaviour
     {
-        /// <summary>
-        /// 太陽コントローラ
-        /// </summary>
+        /// <summary>太陽コントローラ</summary>
         [SerializeField]
         private SunController controller;
 
+        /// <summary>プレイヤーコントローラ</summary>
         [SerializeField]
         private PlayerController playerController;
 
-
+        /// <summary>太陽向き変更時間計</summary>
+        private float changeTime;
+    
         // Start is called before the first frame update
         void Awake()
         {
-            // コントローラの初期化
+            // 太陽の初期化
             controller.Init();
 
+            // プレイヤーの初期化
             playerController.Init();
 
-        }
+            // 太陽向き変更時間の初期化
+            changeTime = controller.GetTimeSpan();
 
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        private void Init()
-        {
-            
         }
-
 
         // Update is called once per frame
         void Update()
         {
+            // 太陽光の向き変更
+            SunLightVectorChange();
+
             // 太陽光うごかす
             controller.SunLightMove();
 
+            // プレイヤー操作
+            PlayerMove(Time.deltaTime);
 
-            if (Input.GetKey(KeyCode.Space))
+        }
+
+        private void SunLightVectorChange()
+        {
+            // 太陽モデルから向き変更時間を取得して測る
+            changeTime += Time.deltaTime;
+            if (changeTime >= controller.GetTimeSpan())
             {
-                Debug.Log($"call");
-                PlayerMove(Time.deltaTime);
+                changeTime = 0f;
+                controller.ChangeVector();
             }
         }
 
@@ -53,10 +60,14 @@ namespace FUTADA
         /// </summary>
         private void PlayerMove(float time)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.A))
             {
-                playerController.PlayerMove(time);
-                System.Diagnostics.Debug.Print("call");
+                playerController.PlayerMove(time,SunVector.LEFT);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                playerController.PlayerMove(time, SunVector.RIGHT);
             }
         }
     }
