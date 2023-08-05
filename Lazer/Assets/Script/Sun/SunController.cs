@@ -32,6 +32,9 @@ namespace FUTADA
         /// <summary>現在の角度</summary>
         private float angle = 0f;
 
+        /// <summary>移動方向</summary>
+        private SunVector vec;
+
 
         /// <summary>
         /// 初期化
@@ -40,6 +43,7 @@ namespace FUTADA
         {
             // モデル作成
             model = new SunModel(moveSpan, flamePower, moveSpeed);
+
         }
 
         /// <summary>
@@ -47,8 +51,9 @@ namespace FUTADA
         /// </summary>
         public void SunLightMove()
         {
+
             // 角度を更新
-            angle += model.GetMoveSpeed() * Time.deltaTime;
+            angle += model.GetMoveSpeed() * Time.deltaTime * (int)vec;
 
             // ラジアンに変換
             float radian = angle * Mathf.Deg2Rad;
@@ -60,6 +65,16 @@ namespace FUTADA
             // オブジェクト自体の回転
             float rotationAngle = angle;
             sunLight.transform.rotation = Quaternion.Euler(0f, 0f, rotationAngle);
+        }
+
+        public void ChangeVector()
+        {
+            vec = model.GetRandomEnum();
+        }
+
+        public float GetTimeSpan()
+        {
+            return model.GetMoveSpan();
         }
 
     }

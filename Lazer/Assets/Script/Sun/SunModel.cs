@@ -15,6 +15,9 @@ namespace FUTADA
         /// <summary>移動スピード</summary>
         private float moveSpeed;
 
+        /// <summary>移動方向 </summary>
+        private SunVector moveVec;
+         
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -54,6 +57,20 @@ namespace FUTADA
         public float GetMoveSpan()
         {
             return moveSpan;
+        }
+
+        /// <summary>
+        /// T型のenumの要素をランダムに選択するジェネリックメソッド
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public SunVector GetRandomEnum()
+        {
+            System.Array enumValues = System.Enum.GetValues(typeof(SunVector));
+            SunVector randomEnumValue =  (SunVector)enumValues.GetValue(Random.Range(0, enumValues.Length));
+
+            moveVec = randomEnumValue;
+            return randomEnumValue;
         }
 
     }

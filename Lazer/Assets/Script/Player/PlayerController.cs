@@ -47,10 +47,10 @@ namespace FUTADA
         /// <summary>
         /// プレイヤー移動
         /// </summary>
-        public void PlayerMove(float time)
+        public void PlayerMove(float time, SunVector vec)
         {
             // 角度を更新
-            angle += model.GetMoveSpeed() * time;
+            angle += model.GetMoveSpeed() * time * (int)vec;
 
             // ラジアンに変換
             float radian = angle * Mathf.Deg2Rad;
