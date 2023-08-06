@@ -8,6 +8,7 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // スペースキーでゲームシーンに移動
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SceneManager.LoadScene("GameScene");
