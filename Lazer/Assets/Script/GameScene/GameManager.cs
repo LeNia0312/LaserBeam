@@ -8,110 +8,110 @@ namespace FUTADA
 {
     public class GameManager : MonoBehaviour
     {
-        /// <summary>‘¾—zƒRƒ“ƒgƒ[ƒ‰</summary>
+        /// <summary>å¤ªé™½ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©</summary>
         [SerializeField]
         private SunController controller;
 
-        /// <summary>ƒvƒŒƒCƒ„[ƒRƒ“ƒgƒ[ƒ‰</summary>
+        /// <summary>ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©</summary>
         [SerializeField]
         private PlayerController playerController;
 
-        /// <summary>ƒQ[ƒ€İ’è</summary>
+        /// <summary>ã‚²ãƒ¼ãƒ è¨­å®š</summary>
         [SerializeField]
         private GameOption gameOption;
 
-        // UIƒRƒ“ƒgƒ[ƒ‰[
+        // UIã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
         [SerializeField]
         private GameSceneUiController uiController;
 
-        // ƒAƒXƒeƒƒCƒhƒRƒ“ƒgƒ[ƒ‰[
+        // ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
         [SerializeField]
         private AsteroidContoller asteroidContoller;
 
-        /// <summary>‘¾—zŒü‚«•ÏXŠÔŒv</summary>
+        /// <summary>å¤ªé™½å‘ãå¤‰æ›´æ™‚é–“è¨ˆ</summary>
         private float changeTime;
 
-        /// <summary>ƒQ[ƒ€ŠÔ </summary>
+        /// <summary>ã‚²ãƒ¼ãƒ æ™‚é–“ </summary>
         private float gameTime;
 
-        /// <summary>ƒAƒXƒeƒƒCƒh¶¬ƒ^ƒCƒ}[</summary>
+        /// <summary>ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ç”Ÿæˆã‚¿ã‚¤ãƒãƒ¼</summary>
         private float generateTimer = 0;
 
+        /// <summary>å¤ªé™½ã‚’å°ã•ãã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼</summary>
         private float sunSizeTimer = 0f;
 
-        /// <summary>ƒAƒXƒeƒƒCƒh¶¬ƒ|ƒCƒ“ƒgƒŠƒXƒg</summary>
+        /// <summary>ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ç”Ÿæˆãƒã‚¤ãƒ³ãƒˆãƒªã‚¹ãƒˆ</summary>
         List<spawnPoint> point;
 
         /// <summary>
-        ///  –ˆ•b‚Ì‘¾—z‚Ìk¬’l
-        ///  ‘¾—z‚ÌƒXƒP[ƒ‹ / ƒQ[ƒ€ŠÔ
+        ///  æ¯ç§’ã®å¤ªé™½ã®ç¸®å°å€¤
+        ///  å¤ªé™½ã®ã‚¹ã‚±ãƒ¼ãƒ« / ã‚²ãƒ¼ãƒ æ™‚é–“
         /// </summary>
         private float minusScale;
 
-
+        /// <summary>ç”»é¢ã®ç¸¦å¹…</summary>
         private float halfScreenHeight;
 
         // Start is called before the first frame update
         void Awake()
         {
-            // ‘¾—z‚Ì‰Šú‰»
+            // å¤ªé™½ã®åˆæœŸåŒ–
             controller.Init();
 
-            // ƒvƒŒƒCƒ„[‚Ì‰Šú‰»
+            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆæœŸåŒ–
             playerController.Init();
 
-            // ui‚Ì‰Šú‰»
+            // uiã®åˆæœŸåŒ–
             uiController.Init(playerController.GetMaxEnergy());
 
-            // ‘¾—zŒü‚«•ÏXŠÔ‚Ì‰Šú‰»
+            // å¤ªé™½å‘ãå¤‰æ›´æ™‚é–“ã®åˆæœŸåŒ–
             changeTime = controller.GetTimeSpan();
 
-            // ƒQ[ƒ€ŠÔ‰Šú‰»
+            // ã‚²ãƒ¼ãƒ æ™‚é–“åˆæœŸåŒ–
             gameTime = gameOption.GetGameTime();
 
-            // ƒAƒXƒeƒƒCƒh¶¬ƒ|ƒCƒ“ƒgƒŠƒXƒgæ“¾
+            // ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ç”Ÿæˆãƒã‚¤ãƒ³ãƒˆãƒªã‚¹ãƒˆå–å¾—
             point = gameOption.GetSpawnPoint();
 
-            // k¬’lŒvZ
-            Debug.Log($"scale {controller.GetSunSize()}");
+            // ç¸®å°å€¤è¨ˆç®—
             minusScale = controller.GetSunSize() / gameTime;
 
+            // ç”»é¢ã®ç¸¦å¹…å–å¾—
             halfScreenHeight = Camera.main.orthographicSize;
-
         }
 
         // Update is called once per frame
         void Update()
         {
-            // ‘¾—zŒõ‚ÌŒü‚«•ÏX
+            // å¤ªé™½å…‰ã®å‘ãå¤‰æ›´
             SunLightVectorChange();
 
-            // ‘¾—zŒõ‚¤‚²‚©‚·
+            // å¤ªé™½å…‰ã†ã”ã‹ã™
             controller.SunLightMove();
 
-            // ƒvƒŒƒCƒ„[‘€ì
+            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ“ä½œ
             PlayerMove(Time.deltaTime);
 
-            // ƒQ[ƒ€ŠÔXV
+            // ã‚²ãƒ¼ãƒ æ™‚é–“æ›´æ–°
             UpdateGameTime(Time.deltaTime);
 
-            // ƒQ[ƒWXV
+            // ã‚²ãƒ¼ã‚¸æ›´æ–°
             uiController.UpdateGauge(playerController.GetCurrentEnergy());
 
-            // ƒAƒXƒeƒƒCƒh¶¬
+            // ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ç”Ÿæˆ
             GenerateAsteroidSpan();
 
-            // ‘¾—z‚ÌƒTƒCƒYXV 
+            // å¤ªé™½ã®ã‚µã‚¤ã‚ºæ›´æ–° 
             UpdateSunSize();
 
-            // ƒfƒoƒbƒO
+            // ãƒ‡ãƒãƒƒã‚°
             DebugLog();
 
         }
 
         private void SunLightVectorChange()
         {
-            // ‘¾—zƒ‚ƒfƒ‹‚©‚çŒü‚«•ÏXŠÔ‚ğæ“¾‚µ‚Ä‘ª‚é
+            // å¤ªé™½ãƒ¢ãƒ‡ãƒ«ã‹ã‚‰å‘ãå¤‰æ›´æ™‚é–“ã‚’å–å¾—ã—ã¦æ¸¬ã‚‹
             changeTime += Time.deltaTime;
             if (changeTime >= controller.GetTimeSpan())
             {
@@ -121,7 +121,7 @@ namespace FUTADA
         }
 
         /// <summary>
-        /// ƒvƒŒƒCƒ„[ˆÚ“®
+        /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç§»å‹•
         /// </summary>
         private void PlayerMove(float time)
         {
@@ -137,14 +137,14 @@ namespace FUTADA
         }
 
         /// <summary>
-        /// ƒQ[ƒ€ŠÔXV
+        /// ã‚²ãƒ¼ãƒ æ™‚é–“æ›´æ–°
         /// </summary>
         /// <param name="time"></param>
         private void UpdateGameTime(float time)
         {
             gameTime -= time;
 
-            // ƒQ[ƒ€ŠÔØ‚ê
+            // ã‚²ãƒ¼ãƒ æ™‚é–“åˆ‡ã‚Œ
             if(gameTime < 0f)
             {
                 EndChargePhase();
@@ -152,31 +152,31 @@ namespace FUTADA
         }
 
         /// <summary>
-        ///  ƒQ[ƒ€I—¹ˆ—
+        ///  ã‚²ãƒ¼ãƒ çµ‚äº†å‡¦ç†
         /// </summary>
         private void EndChargePhase()
         {
-            // ƒGƒlƒ‹ƒM[•Û‘¶
+            // ã‚¨ãƒãƒ«ã‚®ãƒ¼ä¿å­˜
             PlayerData.energy = playerController.GetCurrentEnergy();
             SceneManager.LoadScene("BeamPhaseScene");
         }
 
-        // ƒfƒoƒbƒOƒƒO
+        // ãƒ‡ãƒãƒƒã‚°ãƒ­ã‚°
         private void DebugLog()
         {
             Debug.Log($"GameTime : {gameTime}");
         }
 
         /// <summary>
-        /// ˆê’èŠÔ‚²‚Æ‚ÉƒAƒXƒeƒƒCƒh‚ğ¶¬‚·‚éŠÖ”‚ğÀs
+        /// ä¸€å®šæ™‚é–“ã”ã¨ã«ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°ã‚’å®Ÿè¡Œ
         /// </summary>
         private void GenerateAsteroidSpan()
         {
-            // ƒAƒXƒeƒƒCƒh‚Ì¶¬ŠÔŠu‚ğæ“¾
+            // ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ã®ç”Ÿæˆé–“éš”ã‚’å–å¾—
             float generateSpan = gameOption.GetAsteroidSpan();
             generateTimer += Time.deltaTime;
 
-            // ¶¬ŠÔŒo‰ß‚Å¶¬
+            // ç”Ÿæˆæ™‚é–“çµŒéã§ç”Ÿæˆ
             if(generateTimer >= generateSpan)
             {
                 SpawnObject();
@@ -186,38 +186,44 @@ namespace FUTADA
         }
 
         /// <summary>
-        /// ƒAƒXƒeƒƒCƒh‚Ì¶¬
+        /// ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ã®ç”Ÿæˆ
         /// </summary>
         void SpawnObject()
         {
             float randomY;
             Vector3 spawnPosition;
 
-            float randomValue = Random.value; // 0‚©‚ç1‚Ìƒ‰ƒ“ƒ_ƒ€‚È”’l‚ğæ“¾
+            // 0ã‹ã‚‰1ã®ãƒ©ãƒ³ãƒ€ãƒ ãªæ•°å€¤ã‚’å–å¾—
+            float randomValue = Random.value; 
 
+            // ç”»é¢ã®ç¸¦å¹…ã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ãªYåº§æ¨™ç”Ÿæˆ
             randomY =  Random.Range(-halfScreenHeight, halfScreenHeight);
 
+            // ç§»å‹•æ–¹å‘å›ºå®š(å¿œæ€¥å‡¦ç½®)
             int adjust = -1;
             spawnPosition = new Vector3(adjust *= 10, randomY, 0f); 
 
             for(int i = 0; i < 3; i++)
             {
+                // ã‚¢ã‚¹ãƒ†ãƒ­ã‚¤ãƒ‰ç”Ÿæˆ
                 AsteroidContoller spawnedObject = Instantiate(asteroidContoller, spawnPosition, Quaternion.identity);
+
+                // åˆæœŸåŒ–å‡¦ç†
                 spawnedObject.Init();
             }
         }
 
         /// <summary>
-        /// ‘¾—z‚ÌƒTƒCƒYXV
+        /// å¤ªé™½ã®ã‚µã‚¤ã‚ºæ›´æ–°
         /// </summary>
         private void UpdateSunSize()
         {
+            // å¤ªé™½ç¸®å°ã‚¿ã‚¤ãƒãƒ¼ã‚«ã‚¦ãƒ³ãƒˆ
             sunSizeTimer += Time.deltaTime;
 
             if (sunSizeTimer > 1f)
             {
-
-                // ‘¾—z‚ÌƒTƒCƒYXV
+                // å¤ªé™½ã®ã‚µã‚¤ã‚ºæ›´æ–°
                 controller.UpdateSunSize(minusScale);
 
                 sunSizeTimer = 0f;
