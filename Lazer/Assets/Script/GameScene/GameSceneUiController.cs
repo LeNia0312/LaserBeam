@@ -3,34 +3,32 @@ using UnityEngine.UI;
 
 public class GameSceneUiController : MonoBehaviour
 {
-    /// <summary>ƒQ[ƒW </summary>
+    /// <summary>ã‚²ãƒ¼ã‚¸ </summary>
     [SerializeField]
     private GameObject Gauge;
 
-    /// <summary>Å‘åƒGƒlƒ‹ƒM[ </summary>
+    /// <summary>æœ€å¤§ã‚¨ãƒãƒ«ã‚®ãƒ¼ </summary>
     private float maxEnergy;
 
+    /// <summary>ã‚²ãƒ¼ã‚¸(Sliderã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ)</summary>
     private Slider GaugeSlider;
 
     /// <summary>
-    /// ‰Šú‰»
+    /// åˆæœŸåŒ–
     /// </summary>
     /// <param name="max"></param>
     public void Init(float max)
     {
         this.maxEnergy = max;
         GaugeSlider = Gauge.GetComponent<Slider>();
-       // GaugeSlider.maxValue = maxEnergy;
-
     }
 
     /// <summary>
-    /// ƒQ[ƒWXV
+    /// ã‚²ãƒ¼ã‚¸æ›´æ–°
     /// </summary>
     /// <param name="energy"></param>
     public void UpdateGauge(float energy)
     {
         GaugeSlider.value = energy / maxEnergy;
-        Debug.Log($"gauge update");
     }
 }
