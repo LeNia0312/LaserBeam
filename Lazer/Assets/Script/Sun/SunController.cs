@@ -6,72 +6,78 @@ namespace FUTADA
 {
     public class SunController : MonoBehaviour
     {
-        /// <summary>ˆÚ“®ŠÔŠu</summary>
+        /// <summary>ç§»å‹•é–“éš”</summary>
         [SerializeField]
         private float moveSpan;
 
-        /// <summary>‘¾—zŒõƒpƒ[</summary>
+        /// <summary>å¤ªé™½å…‰ãƒ‘ãƒ¯ãƒ¼</summary>
         [SerializeField]
         private float flamePower;
 
-        /// <summary>ˆÚ“®‘¬“x</summary>
+        /// <summary>ç§»å‹•é€Ÿåº¦</summary>
         [SerializeField]
         private float moveSpeed;
 
-        /// <summary>‘¾—zŒõ</summary>
+        /// <summary>å¤ªé™½å…‰</summary>
         [SerializeField]
         GameObject sunLight;
 
-        /// <summary>’†S“_‚©‚ç‚Ì‹——£i”¼Œaj</summary>
+        /// <summary>ä¸­å¿ƒç‚¹ã‹ã‚‰ã®è·é›¢ï¼ˆåŠå¾„ï¼‰</summary>
         [SerializeField]
         private float radius = 2f;
 
-        /// <summary>‘¾—zƒf[ƒ^ƒ‚ƒfƒ‹</summary>
+        /// <summary>å¤ªé™½ãƒ‡ãƒ¼ã‚¿ãƒ¢ãƒ‡ãƒ«</summary>
         private SunModel model;
 
-        /// <summary>Œ»İ‚ÌŠp“x</summary>
+        /// <summary>ç¾åœ¨ã®è§’åº¦</summary>
         private float angle = 0f;
 
-        /// <summary>ˆÚ“®•ûŒü</summary>
+        /// <summary>ç§»å‹•æ–¹å‘</summary>
         private SunVector vec;
 
 
         /// <summary>
-        /// ‰Šú‰»
+        /// åˆæœŸåŒ–
         /// </summary>
         public void Init()
         {
-            // ƒ‚ƒfƒ‹ì¬
+            // ãƒ¢ãƒ‡ãƒ«ä½œæˆ
             model = new SunModel(moveSpan, flamePower, moveSpeed);
 
         }
 
         /// <summary>
-        /// ‘¾—zŒõˆÚ“®
+        /// å¤ªé™½å…‰ç§»å‹•
         /// </summary>
         public void SunLightMove()
         {
 
-            // Šp“x‚ğXV
+            // è§’åº¦ã‚’æ›´æ–°
             angle += model.GetMoveSpeed() * Time.deltaTime * (int)vec;
 
-            // ƒ‰ƒWƒAƒ“‚É•ÏŠ·
+            // ãƒ©ã‚¸ã‚¢ãƒ³ã«å¤‰æ›
             float radian = angle * Mathf.Deg2Rad;
 
-            // ’†S“_‚ÌˆÊ’u‚É‰~‰^“®‚ğ“K—p‚µ‚ÄAƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğXV
+            // ä¸­å¿ƒç‚¹ã®ä½ç½®ã«å††é‹å‹•ã‚’é©ç”¨ã—ã¦ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’æ›´æ–°
             Vector3 newPosition = this.transform.position + new Vector3(Mathf.Cos(radian), Mathf.Sin(radian), 0f) * radius;
             sunLight.transform.position = newPosition;
 
-            // ƒIƒuƒWƒFƒNƒg©‘Ì‚Ì‰ñ“]
+            // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã®å›è»¢
             float rotationAngle = angle;
             sunLight.transform.rotation = Quaternion.Euler(0f, 0f, rotationAngle);
         }
 
+        /// <summary>
+        /// ç§»å‹•ã™ã‚‹å‘ãã®å¤‰æ›´
+        /// </summary>
         public void ChangeVector()
         {
             vec = model.GetRandomEnum();
         }
 
+        /// <summary>
+        /// ç§»å‹•æ–¹å‘åˆ‡ã‚Šæ›¿ãˆã®é–“éš”ã‚’å–å¾—
+        /// </summary>
         public float GetTimeSpan()
         {
             return model.GetMoveSpan();
