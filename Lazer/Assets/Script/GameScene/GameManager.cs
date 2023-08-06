@@ -48,6 +48,9 @@ namespace FUTADA
         /// </summary>
         private float minusScale;
 
+
+        private float halfScreenHeight;
+
         // Start is called before the first frame update
         void Awake()
         {
@@ -72,6 +75,8 @@ namespace FUTADA
             // 縮小値計算
             Debug.Log($"scale {controller.GetSunSize()}");
             minusScale = controller.GetSunSize() / gameTime;
+
+            halfScreenHeight = Camera.main.orthographicSize;
 
         }
 
@@ -190,29 +195,16 @@ namespace FUTADA
 
             float randomValue = Random.value; // 0から1のランダムな数値を取得
 
-            // 確率に応じてエリアを決定
-            if (randomValue < 0.4f) // 40%の確率でエリア1を選択
-            {
-                randomY = Random.Range(point[0].minYArea, point[0].maxYArea);
-            }
-            else if (randomValue < 0.6f) // 20%の確率でエリア2を選択
-            {
-                randomY = Random.Range(point[1].minYArea, point[1].minYArea);
-            }
-            else // 40%の確率でエリア3を選択
-            {
-                randomY = Random.Range(point[2].minYArea, point[2].minYArea);
-            }
-
-            // ランダムなY座標と、X座標は画面外を設定
-            //int adjust = Random.Range(-1, 1);
-            // if (adjust == 0) adjust = 1;
+            randomY =  Random.Range(-halfScreenHeight, halfScreenHeight);
 
             int adjust = -1;
-            spawnPosition = new Vector3(adjust *= 10, randomY, 0f);
+            spawnPosition = new Vector3(adjust *= 10, randomY, 0f); 
 
-            AsteroidContoller spawnedObject = Instantiate(asteroidContoller, spawnPosition, Quaternion.identity);
-            spawnedObject.Init();
+            for(int i = 0; i < 3; i++)
+            {
+                AsteroidContoller spawnedObject = Instantiate(asteroidContoller, spawnPosition, Quaternion.identity);
+                spawnedObject.Init();
+            }
         }
 
         /// <summary>

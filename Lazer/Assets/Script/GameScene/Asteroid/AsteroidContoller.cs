@@ -13,8 +13,14 @@ public class AsteroidContoller : MonoBehaviour
     [SerializeField]
     private float power;
 
+
+    [SerializeField]
+    private BoomController boom;
+
     /// <summary>model</summary>
     private AsteroidModel model;
+
+    private float halfScreenHeight;
 
     public void Awake()
     {
@@ -25,6 +31,8 @@ public class AsteroidContoller : MonoBehaviour
     public void Init()
     {
         this.gameObject.SetActive(true);
+
+        halfScreenHeight = Camera.main.orthographicSize;
     }
 
     /// <summary>
@@ -53,6 +61,8 @@ public class AsteroidContoller : MonoBehaviour
     private void Update()
     {
         UpdateMove();
+
+        CheckForOutOfBoundsObjects();
     }
 
     /// <summary>
@@ -70,5 +80,29 @@ public class AsteroidContoller : MonoBehaviour
         }
 
         return vec;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.tag == "player")
+        {
+            // ばくふー
+            var obj = Instantiate(boom, this.transform.position, Quaternion.identity);
+            obj.Init();
+
+            // プレイヤー
+            Destroy(this.gameObject);
+
+        }
+    }
+
+    void CheckForOutOfBoundsObjects()
+    {
+        if (this.transform.position.y < -halfScreenHeight)
+        {
+            Destroy(this.gameObject);
+        }
+        
     }
 }

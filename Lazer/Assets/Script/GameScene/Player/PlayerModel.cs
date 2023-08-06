@@ -48,6 +48,7 @@ namespace FUTADA
         {
             currentEnergy = value;
             if(currentEnergy > maxEnergy) currentEnergy = maxEnergy;
+            if(currentEnergy < 0) currentEnergy = 0;
         }
 
         /// <summary>

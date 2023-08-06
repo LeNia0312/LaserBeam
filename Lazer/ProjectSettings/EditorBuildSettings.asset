@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BeamPhaseScene.unity
     guid: ba1952ba78fbb0b41b8e8d6e80062a14
+  - enabled: 1
+    path: Assets/Scenes/Result.unity
+    guid: 27f1b1f9a51d79540a2c39b135e4c140
   m_configObjects: {}

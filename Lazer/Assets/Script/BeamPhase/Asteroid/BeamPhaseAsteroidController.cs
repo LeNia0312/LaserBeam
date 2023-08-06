@@ -19,5 +19,7 @@ public class BeamPhaseAsteroidController : MonoBehaviour
         Destroy(this.gameObject);
         var obj = Instantiate(boomController, this.transform.position, Quaternion.identity);
         obj.Init();
+
+        GameData.breakCount++;
     }
 }

@@ -23,9 +23,6 @@ namespace FUTADA
         [SerializeField]
         private GameObject sunObject;
 
-        [SerializeField]
-        private BoomController boom;
-
         /// <summary>プレイヤーModel</summary>
         private PlayerModel model;
         
@@ -120,15 +117,9 @@ namespace FUTADA
 
             if (collision.tag == "asteroid")
             {
-                // アステロイドに当たったら破壊する
-                Destroy(collision.gameObject);
-
-                // ばくふー
-                var obj = Instantiate(boom, collision.transform.position, Quaternion.identity);
-                obj.Init();
 
                 // エネルギーを減らす
-                model.UpdateCurrentEnergy(model.GetCurrentEnergy() - 1);
+                model.UpdateCurrentEnergy(model.GetCurrentEnergy() - 5);
 
                 Debug.Log($"aa");
               

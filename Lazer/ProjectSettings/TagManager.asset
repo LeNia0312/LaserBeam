@@ -6,6 +6,7 @@ TagManager:
   tags:
   - sun
   - asteroid
+  - player
   layers:
   - Default
   - TransparentFX

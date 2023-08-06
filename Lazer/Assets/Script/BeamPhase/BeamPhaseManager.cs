@@ -102,6 +102,6 @@ public class BeamPhaseManager : MonoBehaviour
 
     private void GameEnd()
     {
-        SceneManager.LoadScene("TItle");
+        SceneManager.LoadScene("Result");
     }
 }
