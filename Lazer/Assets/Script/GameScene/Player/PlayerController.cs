@@ -35,6 +35,7 @@ namespace FUTADA
         /// <summary>トリガー内にいる</summary>
         private bool isInTrigger = false;
 
+        /// <summary>太陽光にあたっている時間</summary>
         private float stayTime = 0f;
 
         /// <summary>
@@ -42,17 +43,15 @@ namespace FUTADA
         /// </summary>
         /// <param name="sun"></param>
         public void Init()
-        {
-           
+        {         
             // モデル作成
             model = new PlayerModel(currentEnergy, maxtEnergy, moveSpeed);
 
-
-            // 食器座標からプレイヤーと太陽の距離を測定
+            // 初期座標からプレイヤーと太陽の距離を測定
             radius = Vector3.Distance(sunObject.transform.position, this.transform.position);
 
+            // プレイヤーの移動処理初期化１
             PlayerMove(0, 0);
-
         }
 
         /// <summary>
@@ -94,11 +93,18 @@ namespace FUTADA
         }
 
 
+        /// <summary>
+        /// トリガー内に滞在している時
+        /// </summary>
         void OnTriggerStay2D(Collider2D other)
         {
+            // 太陽光だったら
             if (other.tag == "sun")
             {
+                // 滞在時間をカウント
                 stayTime += Time.deltaTime;
+
+                // 0.5秒毎にエネルギーをチャージする
                 if(stayTime > 0.5f)
                 {
                     model.UpdateCurrentEnergy(model.GetCurrentEnergy() + 1);
@@ -107,22 +113,25 @@ namespace FUTADA
             }
         }
 
+        /// <summary>
+        /// トリガーから出た時
+        /// </summary>
         void OnTriggerExit2D(Collider2D other)
         {
+            // 滞在時間初期化
             stayTime = 0f;
         }
 
+        /// <summary>に
+        /// トリガーに当たった時
+        /// </summary>
         private void OnTriggerEnter2D(Collider2D collision)
         {
-
+            // アステロイドなら
             if (collision.tag == "asteroid")
             {
-
                 // エネルギーを減らす
                 model.UpdateCurrentEnergy(model.GetCurrentEnergy() - 5);
-
-                Debug.Log($"aa");
-              
             }
         }
 
